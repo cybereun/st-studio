@@ -82,8 +82,14 @@ export const StudioPhase: React.FC<StudioPhaseProps> = ({ playlist: initialPlayl
     useEffect(() => {
         // Init Audio Context Lazily
         if (!audioContextRef.current) {
-            const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
-            audioContextRef.current = new AudioContext();
+            try {
+                const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+                if (AudioContext) {
+                    audioContextRef.current = new AudioContext();
+                }
+            } catch (err) {
+                console.error("Failed to create AudioContext:", err);
+            }
         }
 
         const ctx = audioContextRef.current;
