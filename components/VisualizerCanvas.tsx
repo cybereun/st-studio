@@ -670,7 +670,8 @@ export const VisualizerCanvas = forwardRef<HTMLCanvasElement, VisualizerCanvasPr
     let worker: Worker | null = null;
     if (isRendering) {
       // Start Worker
-      worker = new Worker('/timer-worker.js');
+      const workerPath = '/timer-worker.js';
+      worker = new Worker(workerPath);
       worker.onmessage = (e) => {
         if (e.data === 'tick') {
           render(performance.now());
